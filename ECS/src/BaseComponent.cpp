@@ -9,3 +9,8 @@ ECS::BaseComponent::~BaseComponent()
 {
 }
 
+ECS::BaseComponent::BaseComponent()
+{
+	this->entity = nullptr;
+}
+

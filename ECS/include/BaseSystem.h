@@ -9,7 +9,6 @@ namespace ECS
 		static BaseSystem& instance();
 		virtual void update();
 		virtual ~BaseSystem();
-	protected:
 		virtual void subscribe();
 	};
 

@@ -21,7 +21,8 @@ namespace ECS
 		static std::list<std::shared_ptr<T>> components;
 	};
 
-	std::list<std::shared_ptr<BaseComponent>> TPool<BaseComponent>::components = {};
+	template <class T>
+	std::list<std::shared_ptr<T>> TPool<T>::components = {};
 
 	template <class T>
 	void TPool<T>::add(T& comp) noexcept

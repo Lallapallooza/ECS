@@ -66,10 +66,10 @@ namespace ECS
 		{
 		public:
 			template<class Type>
-			std::shared_ptr<Type> instantiate(Type &comp);
+			static std::shared_ptr<Type> instantiate(Type &comp);
 
 			template<class Type>
-			void destroy(std::shared_ptr<Type> &comp);
+			static void destroy(std::shared_ptr<Type> &comp);
 		};
 
 		template <class Type>

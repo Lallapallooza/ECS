@@ -27,7 +27,8 @@ namespace ECS
 	template <class ComponentType>
 	void PoolManager::registerComponent(std::shared_ptr<ComponentType>& comp) noexcept
 	{
-		static_assert(std::is_base_of<ECS::BaseComponent, ComponentType>::value);
+		static_assert(std::is_base_of<ECS::BaseComponent, ComponentType>::value,
+			"Error, delivered class is not child of ECS::BaseComponent class");
 		auto got = registers.find(comp);
 		if (got == end(registers))
 		{
@@ -45,7 +46,8 @@ namespace ECS
 	template <class ComponentType>
 	void PoolManager::unregisterComponent(std::shared_ptr<ComponentType>& comp)
 	{
-		static_assert(std::is_base_of<ECS::BaseComponent, ComponentType>::value);
+		static_assert(std::is_base_of<ECS::BaseComponent, ComponentType>::value,
+			"Error, delivered class is not child of ECS::BaseComponent class");
 		auto got = registers.find(comp);
 		try
 		{
@@ -55,7 +57,7 @@ namespace ECS
 			}
 			else
 			{
-				std::dynamic_pointer_cast<TPool<ComponentType>>(&registers[comp])->remove(comp);
+				std::dynamic_pointer_cast<TPool<ComponentType>>(registers[comp])->remove(comp);
 			}
 		}
 		catch (std::exception &e)
@@ -67,7 +69,8 @@ namespace ECS
 	template <class ComponentType>
 	void PoolManager::unregisterComponent(ComponentType& comp)
 	{
-		static_assert(std::is_base_of<ECS::BaseComponent, ComponentType>::value);
+		static_assert(std::is_base_of<ECS::BaseComponent, ComponentType>::value,
+			"Error, delivered class is not child of ECS::BaseComponent class");
 		auto got = registers.find(comp);
 		try
 		{

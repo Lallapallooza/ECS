@@ -9,10 +9,9 @@ namespace ECS
 	public:
 		virtual BaseEntity& getEntity() = 0;
 		virtual ~BaseComponent();
+		BaseComponent();
 	protected:
 		BaseEntity *entity;
-	private:
-		BaseComponent() = delete;
 	};
 
 }
