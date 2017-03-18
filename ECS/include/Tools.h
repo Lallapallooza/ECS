@@ -1,9 +1,9 @@
 #pragma once
+#include "PoolManager.h"
+#include "TPool.h"
+
 namespace ECS
 {
-	class PoolManager;
-	class BaseComponent;
-
 	namespace tools
 	{
 		class percent
@@ -78,7 +78,7 @@ namespace ECS
 			static_assert(std::is_base_of<ECS::BaseComponent, ComponentType>::value,
 				"Error, delivered class is not child of ECS::BaseComponent class");
 			std::shared_ptr<Type> comp_ptr = std::make_shared(comp);
-			class ECS::TPool<Type>;
+			ECS::TPool<Type>;
 			PoolManager::instance().registerComponent<Type>(comp_ptr);
 			return comp_ptr;
 		}
@@ -88,10 +88,10 @@ namespace ECS
 		{
 			static_assert(std::is_base_of<ECS::BaseComponent, Type>::value,
 				"Error, delivered class is not child of ECS::BaseComponent class"); 
-			class ECS::TPool<Type>;
+			ECS::TPool<Type>;
 			PoolManager::instance().unregisterComponent<Type>(comp);
-			comp->getEntity() = nullptr;
-			comp.~Type();
+			comp->getEntity()->remove(comp);
+			comp.reset();
 		}
 	}
 

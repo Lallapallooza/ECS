@@ -8,23 +8,27 @@ namespace ECS
 		BaseEntity();
 		std::list<std::shared_ptr<BaseComponent>>& getComponents();
 		template<class ComponentType>
-		void addComponent(std::shared_ptr<ComponentType>& comp);
+		void addComponent(std::shared_ptr<ComponentType>& comp) noexcept;
 		template<class ComponentType>
-		void removeComponent(std::shared_ptr<ComponentType>& comp);
+		void removeComponent(std::shared_ptr<ComponentType>& comp) noexcept;
 		virtual ~BaseEntity();
 	protected:
 		std::list<std::shared_ptr<BaseComponent>> components;
 	};
 
 	template <class ComponentType>
-	void BaseEntity::addComponent(std::shared_ptr<ComponentType>& comp)
+	void BaseEntity::addComponent(std::shared_ptr<ComponentType>& comp) noexcept
 	{
 		components.push_back(comp);
 	}
 
 	template <class ComponentType>
-	void BaseEntity::removeComponent(std::shared_ptr<ComponentType>& comp)
+	void BaseEntity::removeComponent(std::shared_ptr<ComponentType>& comp) noexcept
 	{
-		components.remove(comp);
+		auto find = std::find(begin(components), end(components), comp);
+		if (find != end(components))
+		{
+			components.remove(comp);
+		}
 	}
 }

@@ -2,6 +2,7 @@
 #include "BaseComponent.h"
 #include "Pool.h"
 #include "TPool.h"
+#include <iostream>
 
 namespace ECS
 {
@@ -38,15 +39,7 @@ namespace ECS
 			"Error, delivered class is not child of ECS::BaseComponent class");
 		try
 		{
-			auto find = std::find(begin(TPool<ComponentType>::components), end(begin(TPool<ComponentType>::components)), comp);
-			if(find != end(TPool<ComponentType>::components))
-			{
-				TPool<ComponentType>::components.erase(find);
-			}
-			else
-			{
-				throw std::invalid_argument("Element not found in list");
-			}
+			TPool<ComponentType>::remove(comp);
 		}
 		catch (std::exception &e)
 		{
