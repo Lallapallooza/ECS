@@ -30,7 +30,7 @@ namespace ECS
 		if (find != end(components))
 		{
 			components.remove(comp);
-			comp->enitity = nullptr;
+			comp->entity = nullptr;
 		}
 	}
 }
