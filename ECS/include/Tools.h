@@ -90,7 +90,11 @@ namespace ECS
 				"Error, delivered class is not child of ECS::BaseComponent class"); 
 			ECS::TPool<Type>;
 			PoolManager::instance().unregisterComponent<Type>(comp);
-			comp->getEntity()->remove(comp);
+			auto entity = comp->getEntity();
+			if(entity)
+			{
+				entity->remove(comp);
+			}
 			comp.reset();
 		}
 	}

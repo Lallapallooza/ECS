@@ -7,14 +7,9 @@ namespace ECS
 	class BaseComponent
 	{
 	public:
-	    BaseEntity* getEntity() const noexcept
-	    {
-			return entity;
-	    };
+		BaseEntity *entity;
 		virtual ~BaseComponent();
 		BaseComponent();
-	protected:
-		BaseEntity *entity;
 	};
 
 }

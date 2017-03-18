@@ -20,6 +20,7 @@ namespace ECS
 	void BaseEntity::addComponent(std::shared_ptr<ComponentType>& comp) noexcept
 	{
 		components.push_back(comp);
+		comp->entity = this;
 	}
 
 	template <class ComponentType>
@@ -29,6 +30,7 @@ namespace ECS
 		if (find != end(components))
 		{
 			components.remove(comp);
+			comp->enitity = nullptr;
 		}
 	}
 }
