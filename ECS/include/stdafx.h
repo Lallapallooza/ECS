@@ -8,27 +8,11 @@
 #include "targetver.h"
 
 
-#include <stdio.h>
-#include <tchar.h>
-#include <random>
-#include <conio.h>
-#include <fstream>
-#include <map>
 #include <algorithm>
 #include <unordered_map>
-#include <iomanip>
-#include <array>
 #include <list>
-#include <set>
-#include <stack>
-#include <algorithm>
-#include <iostream>
-#include <vector>
 #include <functional>
 #include <string>
-#include <cstdlib>
-#include <regex>
-#include <ctime>
 #include <memory>
 
 

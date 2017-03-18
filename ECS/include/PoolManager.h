@@ -15,10 +15,9 @@ namespace ECS
 		void unregisterComponent(std::shared_ptr<ComponentType>& comp);
 
 		template<class ComponentType>
-		void unregisterComponent(ComponentType& comp);
-		
+		std::list<BaseEntity*> getEntities();
+
 		static PoolManager& instance() noexcept;
-		std::unordered_map<std::shared_ptr<BaseComponent>, std::shared_ptr<Pool>> registers;
 		~PoolManager();
 	private:
 		PoolManager();
@@ -29,18 +28,7 @@ namespace ECS
 	{
 		static_assert(std::is_base_of<ECS::BaseComponent, ComponentType>::value,
 			"Error, delivered class is not child of ECS::BaseComponent class");
-		auto got = registers.find(comp);
-		if (got == end(registers))
-		{
-			auto &pool = registers[comp];
-			pool = std::make_shared<TPool<ComponentType>>();
-			std::dynamic_pointer_cast<TPool<ComponentType>>(pool)->add(comp);
-		}
-		else
-		{
-			std::dynamic_pointer_cast<TPool<ComponentType>>(registers[comp])->add(comp);
-		}
-
+		TPool<ComponentType>::add(comp);
 	}
 
 	template <class ComponentType>
@@ -48,16 +36,16 @@ namespace ECS
 	{
 		static_assert(std::is_base_of<ECS::BaseComponent, ComponentType>::value,
 			"Error, delivered class is not child of ECS::BaseComponent class");
-		auto got = registers.find(comp);
 		try
 		{
-			if (got == end(registers))
+			auto find = std::find(begin(TPool<ComponentType>::components), end(begin(TPool<ComponentType>::components)), comp);
+			if(find != end(TPool<ComponentType>::components))
 			{
-				throw std::runtime_error("Components not found");
+				TPool<ComponentType>::components.erase(find);
 			}
 			else
 			{
-				std::dynamic_pointer_cast<TPool<ComponentType>>(registers[comp])->remove(comp);
+				throw std::invalid_argument("Element not found in list");
 			}
 		}
 		catch (std::exception &e)
@@ -67,26 +55,14 @@ namespace ECS
 	}
 
 	template <class ComponentType>
-	void PoolManager::unregisterComponent(ComponentType& comp)
+	std::list<BaseEntity*> PoolManager::getEntities()
 	{
-		static_assert(std::is_base_of<ECS::BaseComponent, ComponentType>::value,
-			"Error, delivered class is not child of ECS::BaseComponent class");
-		auto got = registers.find(comp);
-		try
+		std::list<BaseEntity*> to_ret;
+		std::for_each(begin(TPool<ComponentType>::components), end((TPool<ComponentType>::components)), 
+			[&](std::shared_ptr<ComponentType>& comp)
 		{
-			if (got == end(registers))
-			{
-				throw std::runtime_error("Components not found");
-			}
-			else
-			{
-				std::dynamic_pointer_cast<TPool<ComponentType>>(registers[comp])->remove(comp);
-			}
-		}
-		catch (std::exception &e)
-		{
-			std::cout << e.what() << std::endl;
-		}
+			to_ret.push_back(comp.getEntity());
+		});
+		return to_ret;
 	}
-
 }
