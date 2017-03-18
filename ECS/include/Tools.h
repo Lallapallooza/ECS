@@ -75,7 +75,7 @@ namespace ECS
 		template <class Type>
 		std::shared_ptr<Type> Collector::instantiate()
 		{
-			static_assert(std::is_base_of<ECS::BaseComponent, ComponentType>::value,
+			static_assert(std::is_base_of<ECS::BaseComponent, Type>::value,
 				"Error, delivered class is not child of ECS::BaseComponent class");
 			std::shared_ptr<Type> comp_ptr = std::make_shared<Type>();
 			ECS::TPool<Type>;
