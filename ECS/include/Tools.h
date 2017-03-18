@@ -66,18 +66,18 @@ namespace ECS
 		{
 		public:
 			template<class Type>
-			static std::shared_ptr<Type> instantiate(Type &comp);
+			static std::shared_ptr<Type> instantiate();
 
 			template<class Type>
 			static void destroy(std::shared_ptr<Type> &comp);
 		};
 
 		template <class Type>
-		std::shared_ptr<Type> Collector::instantiate(Type& comp)
+		std::shared_ptr<Type> Collector::instantiate()
 		{
 			static_assert(std::is_base_of<ECS::BaseComponent, ComponentType>::value,
 				"Error, delivered class is not child of ECS::BaseComponent class");
-			std::shared_ptr<Type> comp_ptr = std::make_shared(comp);
+			std::shared_ptr<Type> comp_ptr = std::make_shared<Type>();
 			ECS::TPool<Type>;
 			PoolManager::instance().registerComponent<Type>(comp_ptr);
 			return comp_ptr;
