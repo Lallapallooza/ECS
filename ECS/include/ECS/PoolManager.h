@@ -20,16 +20,18 @@ namespace ECS
 		template<class ComponentType>
 		std::vector<BaseEntity*> getEntities();
 
-		static PoolManager& instance() noexcept
-		{
-			static PoolManager pool;
-			return pool;
-		}
+		static PoolManager& instance() noexcept;
 
 		~PoolManager(){};
 	private:
 		PoolManager();
 	};
+
+	inline PoolManager& PoolManager::instance() noexcept
+	{
+		static PoolManager pool;
+		return pool;
+	}
 
 	template <class ComponentType>
 	void PoolManager::registerComponent(std::shared_ptr<ComponentType>& comp) noexcept

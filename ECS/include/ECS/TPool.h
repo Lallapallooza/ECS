@@ -13,7 +13,7 @@ namespace ECS
 		static void add(T& comp) noexcept;
 		static void add(std::shared_ptr<T>& comp) noexcept;
 		static void remove(std::shared_ptr<T>& comp) noexcept;
-		static std::list<std::shared_ptr<T>>& getComponents();
+		static std::vector<std::shared_ptr<T>>& getComponents();
 
 		TPool();
 		~TPool();
@@ -49,7 +49,7 @@ namespace ECS
 	}
 
 	template <class T>
-	std::list<std::shared_ptr<T>>& TPool<T>::getComponents()
+	std::vector<std::shared_ptr<T>>& TPool<T>::getComponents()
 	{
 		return components;
 	}
