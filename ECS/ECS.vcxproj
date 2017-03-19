@@ -147,13 +147,10 @@
     <ClInclude Include="include\ECS\BaseSystem.h" />
     <ClInclude Include="include\ECS\ECS.h" />
     <ClInclude Include="include\ECS\PoolManager.h" />
-    <ClInclude Include="include\ECS\targetver.h" />
     <ClInclude Include="include\ECS\Tools.h" />
     <ClInclude Include="include\ECS\TPool.h" />
-    <ClInclude Include="include\targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\dllmain.cpp" />
     <ClCompile Include="src\ECS.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
