@@ -11,7 +11,7 @@ project(${project_name})
 file(GLOB SOURCES src/*.cpp)
 file(GLOB INCLUDES include/*.h)
 
-include_directories(include/)
+include_directories(include/ECS)
 
 add_library(${project_name} SHARED ${SOURCES} ${INCLUDES})
 add_library(${project_name} ${SOURCES} ${INCLUDES})

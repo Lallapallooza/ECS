@@ -21,25 +21,28 @@
     <ClInclude Include="include\targetver.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\BaseComponent.h">
+    <ClInclude Include="include\ECS\BaseComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\BaseEntity.h">
+    <ClInclude Include="include\ECS\BaseEntity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\BaseSystem.h">
+    <ClInclude Include="include\ECS\BaseSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\ECS.h">
+    <ClInclude Include="include\ECS\ECS.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\PoolManager.h">
+    <ClInclude Include="include\ECS\PoolManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Tools.h">
+    <ClInclude Include="include\ECS\targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\TPool.h">
+    <ClInclude Include="include\ECS\Tools.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ECS\TPool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

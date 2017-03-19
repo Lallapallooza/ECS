@@ -114,7 +114,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;ECS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Пользователь\Documents\Visual Studio 2017\Projects\ECS\ECS\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Пользователь\Documents\Visual Studio 2017\Projects\ECS\ECS\include\ECS;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile />
     </ClCompile>
     <Link>
@@ -142,14 +142,15 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\BaseComponent.h" />
-    <ClInclude Include="include\BaseEntity.h" />
-    <ClInclude Include="include\BaseSystem.h" />
-    <ClInclude Include="include\ECS.h" />
-    <ClInclude Include="include\PoolManager.h" />
+    <ClInclude Include="include\ECS\BaseComponent.h" />
+    <ClInclude Include="include\ECS\BaseEntity.h" />
+    <ClInclude Include="include\ECS\BaseSystem.h" />
+    <ClInclude Include="include\ECS\ECS.h" />
+    <ClInclude Include="include\ECS\PoolManager.h" />
+    <ClInclude Include="include\ECS\targetver.h" />
+    <ClInclude Include="include\ECS\Tools.h" />
+    <ClInclude Include="include\ECS\TPool.h" />
     <ClInclude Include="include\targetver.h" />
-    <ClInclude Include="include\Tools.h" />
-    <ClInclude Include="include\TPool.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp" />
