@@ -13,5 +13,4 @@ file(GLOB INCLUDES include/*.h)
 
 include_directories(include/ECS)
 
-add_library(${project_name} SHARED ${SOURCES} ${INCLUDES})
 add_library(${project_name} ${SOURCES} ${INCLUDES})
