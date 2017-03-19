@@ -24,7 +24,7 @@ namespace ECS
 
 		~PoolManager(){};
 	private:
-		PoolManager();
+		PoolManager(){};
 	};
 
 	inline PoolManager& PoolManager::instance() noexcept

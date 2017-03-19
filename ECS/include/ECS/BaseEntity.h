@@ -9,7 +9,7 @@ namespace ECS
 	{
 	public:
 		BaseEntity(){};
-		std::vector<std::shared_ptr<BaseComponent>>& getComponents();
+		std::vector<std::shared_ptr<BaseComponent>>& getComponents() noexcept;
 		template<class ComponentType>
 		void addComponent(std::shared_ptr<ComponentType>& comp) noexcept;
 		template<class ComponentType>
@@ -19,7 +19,7 @@ namespace ECS
 		std::vector<std::shared_ptr<BaseComponent>> components;
 	};
 
-	inline std::vector<std::shared_ptr<BaseComponent>>& BaseEntity::getComponents()
+	inline std::vector<std::shared_ptr<BaseComponent>>& BaseEntity::getComponents() noexcept
 	{
 		return components;
 	}
