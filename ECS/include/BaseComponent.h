@@ -8,8 +8,11 @@ namespace ECS
 	{
 	public:
 		BaseEntity *entity;
-		virtual ~BaseComponent();
-		BaseComponent();
+		virtual ~BaseComponent(){};
+		BaseComponent()
+		{
+			this->entity = nullptr;
+		};
 	};
 
 }

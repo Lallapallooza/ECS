@@ -1,20 +1,28 @@
 #pragma once
+#include <vector>
 #include "BaseComponent.h"
+#include <memory>
+
 namespace ECS
 {
 	class BaseEntity
 	{
 	public:
-		BaseEntity();
-		std::list<std::shared_ptr<BaseComponent>>& getComponents();
+		BaseEntity(){};
+		std::vector<std::shared_ptr<BaseComponent>>& getComponents();
 		template<class ComponentType>
 		void addComponent(std::shared_ptr<ComponentType>& comp) noexcept;
 		template<class ComponentType>
 		void removeComponent(std::shared_ptr<ComponentType>& comp) noexcept;
-		virtual ~BaseEntity();
+		virtual ~BaseEntity(){};
 	protected:
-		std::list<std::shared_ptr<BaseComponent>> components;
+		std::vector<std::shared_ptr<BaseComponent>> components;
 	};
+
+	inline std::vector<std::shared_ptr<BaseComponent>>& BaseEntity::getComponents()
+	{
+		return components;
+	}
 
 	template <class ComponentType>
 	void BaseEntity::addComponent(std::shared_ptr<ComponentType>& comp) noexcept
@@ -29,7 +37,8 @@ namespace ECS
 		auto find = std::find(begin(components), end(components), comp);
 		if (find != end(components))
 		{
-			components.remove(comp);
+			std::swap(components.back(), find);
+			components.pop_back();
 			comp->entity = nullptr;
 		}
 	}

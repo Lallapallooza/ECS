@@ -1,8 +1,10 @@
 #pragma once
 #include "BaseComponent.h"
-#include "Pool.h"
 #include "TPool.h"
 #include <iostream>
+#include <vector>
+#include <algorithm>
+#include <memory>
 
 namespace ECS
 {
@@ -16,10 +18,15 @@ namespace ECS
 		void unregisterComponent(std::shared_ptr<ComponentType>& comp);
 
 		template<class ComponentType>
-		std::list<BaseEntity*> getEntities();
+		std::vector<BaseEntity*> getEntities();
 
-		static PoolManager& instance() noexcept;
-		~PoolManager();
+		static PoolManager& instance() noexcept
+		{
+			static PoolManager pool;
+			return pool;
+		}
+
+		~PoolManager(){};
 	private:
 		PoolManager();
 	};
@@ -48,9 +55,9 @@ namespace ECS
 	}
 
 	template <class ComponentType>
-	std::list<BaseEntity*> PoolManager::getEntities()
+	std::vector<BaseEntity*> PoolManager::getEntities()
 	{
-		std::list<BaseEntity*> to_ret;
+		std::vector<BaseEntity*> to_ret;
 		std::for_each(begin(TPool<ComponentType>::components), end((TPool<ComponentType>::components)), 
 			[&](std::shared_ptr<ComponentType>& comp)
 		{

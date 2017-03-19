@@ -109,7 +109,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -146,25 +146,14 @@
     <ClInclude Include="include\BaseEntity.h" />
     <ClInclude Include="include\BaseSystem.h" />
     <ClInclude Include="include\ECS.h" />
-    <ClInclude Include="include\Pool.h" />
     <ClInclude Include="include\PoolManager.h" />
-    <ClInclude Include="include\stdafx.h" />
     <ClInclude Include="include\targetver.h" />
     <ClInclude Include="include\Tools.h" />
     <ClInclude Include="include\TPool.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\BaseComponent.cpp" />
-    <ClCompile Include="src\BaseEntity.cpp" />
-    <ClCompile Include="src\BaseSystem.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
     <ClCompile Include="src\ECS.cpp" />
-    <ClCompile Include="src\Pool.cpp" />
-    <ClCompile Include="src\PoolManager.cpp" />
-    <ClCompile Include="src\stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\Tools.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

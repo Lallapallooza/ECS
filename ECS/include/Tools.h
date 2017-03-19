@@ -1,6 +1,8 @@
 #pragma once
 #include "PoolManager.h"
 #include "TPool.h"
+#include <functional>
+#include <list>
 
 namespace ECS
 {

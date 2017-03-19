@@ -1,28 +1,28 @@
 #pragma once
-#include "stdafx.h"
-#include "Pool.h"
-#include "BaseComponent.h"
+#include <vector>
+#include <memory>
+#include <list>
 
 namespace ECS
 {
 
 	template<class T>
-	class TPool : public Pool
+	class TPool
 	{
 	public:
 		static void add(T& comp) noexcept;
 		static void add(std::shared_ptr<T>& comp) noexcept;
-		static void remove(std::shared_ptr<T>& comp);
+		static void remove(std::shared_ptr<T>& comp) noexcept;
 		static std::list<std::shared_ptr<T>>& getComponents();
 
 		TPool();
 		~TPool();
 	private:
-		static std::list<std::shared_ptr<T>> components;
+		static std::vector<std::shared_ptr<T>> components;
 	};
 
 	template <class T>
-	std::list<std::shared_ptr<T>> TPool<T>::components = {};
+	std::vector<std::shared_ptr<T>> TPool<T>::components = {};
 
 	template <class T>
 	void TPool<T>::add(T& comp) noexcept
@@ -37,16 +37,15 @@ namespace ECS
 	}
 
 	template <class T>
-	void TPool<T>::remove(std::shared_ptr<T>& comp)
+	void TPool<T>::remove(std::shared_ptr<T>& comp) noexcept
 	{
-		try
+		auto find = std::find(begin(components), end(components), comp);
+		if (find != end(components))
 		{
-			components.remove(comp);
+			std::swap(components.back(), find);
+			components.pop_back();
 		}
-		catch(std::exception &e)
-		{
-			std::cout << e.what() << std::endl;
-		}
+
 	}
 
 	template <class T>

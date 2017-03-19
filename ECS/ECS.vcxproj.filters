@@ -33,13 +33,7 @@
     <ClInclude Include="include\ECS.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Pool.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\PoolManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Tools.h">
@@ -50,31 +44,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\BaseComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\BaseEntity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\BaseSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\ECS.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Pool.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\PoolManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Tools.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
