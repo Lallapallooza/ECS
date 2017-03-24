@@ -80,7 +80,6 @@ namespace ECS
 			static_assert(std::is_base_of<ECS::BaseComponent, Type>::value,
 				"Error, delivered class is not child of ECS::BaseComponent class");
 			std::shared_ptr<Type> comp_ptr = std::make_shared<Type>();
-			ECS::TPool<Type>;
 			PoolManager::instance().registerComponent<Type>(comp_ptr);
 			return comp_ptr;
 		}
@@ -90,7 +89,6 @@ namespace ECS
 		{
 			static_assert(std::is_base_of<ECS::BaseComponent, Type>::value,
 				"Error, delivered class is not child of ECS::BaseComponent class"); 
-			ECS::TPool<Type>;
 			PoolManager::instance().unregisterComponent<Type>(comp);
 			auto entity = comp->entity;
 			if(entity)
