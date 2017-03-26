@@ -47,9 +47,15 @@ namespace ECS
 		{
 			int size = _functions.size();
 
+<<<<<<< HEAD
 			for (int i = 0; i < size; ++i)
 			{
 				if (getAddress(_functions[i]) == getAddress(func))
+=======
+			for(int i = 0; i < size; ++i)
+			{
+				if(getAddress(_functions[i]) == getAddress(func))
+>>>>>>> cad9dcab1490fd89eb365b5c9a58f10da8ebd66f
 				{
 					std::swap(_functions.back(), _functions[i]);
 					_functions.pop_back();
@@ -62,7 +68,11 @@ namespace ECS
 		{
 			int size = _functions.size();
 
+<<<<<<< HEAD
 			for (int i = 0; i < size; ++i)
+=======
+            for(int i = 0; i < size; ++i)
+>>>>>>> cad9dcab1490fd89eb365b5c9a58f10da8ebd66f
 			{
 				_functions[i]();
 			}
