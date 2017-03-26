@@ -2,7 +2,7 @@
 #include "PoolManager.h"
 #include "TPool.h"
 #include <functional>
-#include <list>
+#include <vector>
 
 namespace ECS
 {
@@ -27,7 +27,7 @@ namespace ECS
 			void operator()();
 		private:
 			void operator=(const Event &other) = delete;
-			std::list<std::function<void()>> _functions;
+			std::vector<std::function<void()>> _functions;
 			template<typename T, typename... U>
 			size_t getAddress(std::function<T(U...)> f)
 			{
@@ -45,12 +45,14 @@ namespace ECS
 
 		inline Event& Event::operator-=(const std::function<void()>& func)
 		{
-			for (auto it = begin(_functions), last = end(_functions); it != last; ++it)
+			int size = _functions.size();
+
+			for (int i = 0; i < size; ++i)
 			{
-				if (getAddress(*it) == getAddress(func))
+				if (getAddress(_functions[i]) == getAddress(func))
 				{
-					_functions.erase(it);
-					break;
+					std::swap(_functions.back(), _functions[i]);
+					_functions.pop_back();
 				}
 			}
 			return *this;
@@ -58,12 +60,13 @@ namespace ECS
 
 		inline void Event::operator()()
 		{
-			for (const auto &func : _functions)
+			int size = _functions.size();
+
+			for (int i = 0; i < size; ++i)
 			{
-				func();
+				_functions[i]();
 			}
 		}
-
 		class Collector
 		{
 		public:
@@ -72,6 +75,8 @@ namespace ECS
 
 			template<class Type>
 			static void destroy(std::shared_ptr<Type> &comp);
+		private:
+			std::vector<int> ids;
 		};
 
 		template <class Type>
@@ -80,8 +85,12 @@ namespace ECS
 			static_assert(std::is_base_of<ECS::BaseComponent, Type>::value,
 				"Error, delivered class is not child of ECS::BaseComponent class");
 			std::shared_ptr<Type> comp_ptr = std::make_shared<Type>();
-			ECS::TPool<Type>;
 			PoolManager::instance().registerComponent<Type>(comp_ptr);
+			if(Type::id == 0)
+			{
+				Type::id = ids.size();
+				ids.push_back(Type::id);
+			}
 			return comp_ptr;
 		}
 
@@ -90,7 +99,6 @@ namespace ECS
 		{
 			static_assert(std::is_base_of<ECS::BaseComponent, Type>::value,
 				"Error, delivered class is not child of ECS::BaseComponent class"); 
-			ECS::TPool<Type>;
 			PoolManager::instance().unregisterComponent<Type>(comp);
 			auto entity = comp->entity;
 			if(entity)

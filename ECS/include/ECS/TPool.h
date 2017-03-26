@@ -42,10 +42,9 @@ namespace ECS
 		auto find = std::find(begin(components), end(components), comp);
 		if (find != end(components))
 		{
-			std::swap(components.back(), find);
+			std::swap(components.back(), *find);
 			components.pop_back();
 		}
-
 	}
 
 	template <class T>
