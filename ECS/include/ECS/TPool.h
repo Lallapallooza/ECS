@@ -14,6 +14,7 @@ namespace ECS
 		static void add(std::shared_ptr<T>& comp) noexcept;
 		static void remove(std::shared_ptr<T>& comp) noexcept;
 		static std::vector<std::shared_ptr<T>>& getComponents();
+		static std::vector<BaseEntity*> getEntities();
 
 		TPool();
 		~TPool();
@@ -45,6 +46,17 @@ namespace ECS
 			std::swap(components.back(), *find);
 			components.pop_back();
 		}
+	}
+
+	template <class T>
+	std::vector<BaseEntity*> TPool<T>::getEntities()
+	{
+		std::vector<BaseEntity*> entities;
+		for(const auto &comp : components)
+		{
+			entities.push_back(comp->entity);
+		}
+		return entities;
 	}
 
 	template <class T>

@@ -76,8 +76,10 @@ namespace ECS
 			template<class Type>
 			static void destroy(std::shared_ptr<Type> &comp);
 		private:
-			std::vector<int> ids;
+			static std::vector<int> ids;
 		};
+
+		std::vector<int> Collector::ids = {};
 
 		template <class Type>
 		std::shared_ptr<Type> Collector::instantiate()

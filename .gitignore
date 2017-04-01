@@ -300,3 +300,4 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+ECS/include/ECS/Tools.h

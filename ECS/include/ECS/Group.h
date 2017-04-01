@@ -11,14 +11,17 @@ namespace ECS
 	class Group
 	{
 	public:
-		void add(std::shared_ptr<ECS::BaseEntity> &entity);
-		void remove(std::shared_ptr <ECS::BaseEntity> &entity);
+		static void add(std::shared_ptr<ECS::BaseEntity> &entity);
+		static void remove(std::shared_ptr <ECS::BaseEntity> &entity);
 
-		std::vector<std::shared_ptr<ECS::BaseEntity>>& getEntities();
+		static std::vector<std::shared_ptr<ECS::BaseEntity>>& getEntities();
 
 	private:
-		std::vector<std::shared_ptr<ECS::BaseEntity>> entities;
+		static std::vector<std::shared_ptr<ECS::BaseEntity>> entities;
 	};
+
+	template<class T>
+	std::vector<std::shared_ptr<ECS::BaseEntity>> Group<T>::entities = {};
 
 	template <class T>
 	void Group<T>::add(std::shared_ptr<ECS::BaseEntity>& entity)

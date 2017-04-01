@@ -8,6 +8,7 @@ namespace ECS
 	{
 	public:
 		BaseEntity *entity;
+
 		virtual ~BaseComponent(){};
 		BaseComponent()
 		{
