@@ -75,7 +75,7 @@ example:
 
 		class SystemA : ECS::BaseSystem
 		{
-			void update()
+			static void update()
 			{
 				auto attr = ECS::TPool<ComponentAttributeStrenght>::getComponents()[0];
 				//
