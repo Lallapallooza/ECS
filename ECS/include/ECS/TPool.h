@@ -2,6 +2,7 @@
 #include <vector>
 #include <memory>
 #include <list>
+#include <functional>
 
 namespace ECS
 {
@@ -15,15 +16,85 @@ namespace ECS
 		static void remove(std::shared_ptr<T>& comp) noexcept;
 		static std::vector<std::shared_ptr<T>>& getComponents();
 		static std::vector<BaseEntity*> getEntities();
-
+		static void serialize();
+		static void deserialize();
+		static void addSerializator(std::function<void(T)> &serializator);
+		static void addDeserializator(std::function<void(T)> &deserializator);
+		static void removeSerializator();
+		static void removeDeserializator();
+		static std::function<void(T)> getDeserializator();
+		static std::function<void(T)> getSerializator();
 		TPool();
 		~TPool();
 	private:
+		static std::function<void(T)> serializator;
+		static std::function<void(T)> deserializator;
 		static std::vector<std::shared_ptr<T>> components;
 	};
 
 	template <class T>
+	std::function<void(T)> TPool<T>::serializator = nullptr;
+
+	template <class T>
+	std::function<void(T)> TPool<T>::deserializator = nullptr;
+
+	template <class T>
 	std::vector<std::shared_ptr<T>> TPool<T>::components = {};
+	
+	template<class T>
+	void TPool<T>::deserialize()
+	{
+		for (auto &x : components)
+		{
+			deserializator(x);
+		}
+	}
+
+	template<class T>
+	void TPool<T>::serialize()
+	{
+		for(auto &x : components)
+		{
+			serializator(x);
+		}
+	}
+
+	template<class T>
+	std::function<void(T)> TPool<T>::getSerializator()
+	{
+		return serializator;
+	}
+
+	template<class T>
+	std::function<void(T)> TPool<T>::getDeserializator()
+	{
+		return deserializator;
+	}
+
+
+	template <class T>
+	void TPool<T>::removeDeserializator()
+	{
+		deserializator = nullptr;
+	}
+
+	template <class T>
+	void TPool<T>::removeSerializator()
+	{
+		serializator = nullptr;
+	}
+	
+	template <class T>
+	void TPool<T>::addSerializator(std::function<void(T)> &serializator)
+	{
+		this->serializator = serializator;
+	}
+
+	template <class T>
+	void TPool<T>::addDeserializator(std::function<void(T)> &deserializator)
+	{
+		this->deserializator = deserializator;
+	}
 
 	template <class T>
 	void TPool<T>::add(T& comp) noexcept
