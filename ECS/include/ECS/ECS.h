@@ -21,4 +21,6 @@ namespace ECS
 	class BaseSystem;
 	class BaseEntity;
 	class Pool;
+	class PoolManager;
+	class Matcher;
 }

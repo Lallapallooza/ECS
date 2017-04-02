@@ -79,7 +79,6 @@ namespace ECS
 			static std::vector<int> ids;
 		};
 
-		std::vector<int> Collector::ids = {};
 
 		template <class Type>
 		std::shared_ptr<Type> Collector::instantiate()
@@ -111,9 +110,9 @@ namespace ECS
 		}
 	}
 
-	static tools::Event preUpdate;
-	static tools::Event Update;
-	static tools::Event lateUpdate;
+	extern tools::Event preUpdate;
+	extern tools::Event Update;
+	extern tools::Event lateUpdate;
 }
 
 

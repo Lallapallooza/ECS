@@ -4,3 +4,7 @@
 #include "BaseComponent.h"
 #include "BaseSystem.h"
 #include "BaseEntity.h"
+#include "Tools.h"
+#include "Group.h"
+#include "Matcher.h"
+#include "PoolManager.h"
