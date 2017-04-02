@@ -167,9 +167,13 @@ Try to use match only once, because its expensive to collect it every update.
 That class allows to group entities
 Example: 
 
-	ECS::Group<class GSome>::add(e1);
-	ECS::Group<class GSome>::add(e2);
-	ECS::Group<class GSome>::add(e3);
+	ECS::Group<g_("Some")>::add(e1);
+	ECS::Group<<g_("Some")>::add(e2);
+	ECS::Group<<g_("Some")>::add(e3);
 	
-That class allows you to collect, add, remove entites from every place of programm. Class GSome shouldn't be created anywhere, it is a unique id, which you may choose as you wish.
+That class allows you to collect, add, remove entites from every place of programm. 
+
+	g_("Some") 
+
+it is a unique id, which you may choose as you wish.
 
