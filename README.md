@@ -8,6 +8,8 @@
       -Events
       -Matcher
       -Group
+      -Reactive variables
+      -Some helper tools
 
   Every ECS sytem contains three basic elements: components, entity and system.
   Pool and Events were added to make proccess of develepment easier.
