@@ -2,12 +2,12 @@
 
 namespace ECS
 {
-	class BaseEntity;
+	class Entity;
 
 	class BaseComponent
 	{
 	public:
-		BaseEntity *entity;
+		Entity *entity;
 
 		virtual ~BaseComponent(){};
 		BaseComponent()
