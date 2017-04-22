@@ -1,15 +1,14 @@
 #pragma once
 #include <vector>
 #include <unordered_map>
-#include "BaseComponent.h"
 #include <memory>
+#include "BaseComponent.h"
 
 namespace ECS
 {
-	class BaseEntity
+	class Entity
 	{
 	public:
-		BaseEntity(){};
 		std::vector<std::shared_ptr<BaseComponent>> getComponents() noexcept;
 		template<class ComponentType>
 		void addComponent(std::shared_ptr<ComponentType>& comp) noexcept;
@@ -20,13 +19,14 @@ namespace ECS
 		template<class ComponentType>
 		std::shared_ptr<ComponentType> getComponentByType() noexcept;
 
-		virtual ~BaseEntity(){};
+		Entity() {};
+		~Entity(){};
 	protected:
 		std::unordered_map<int, std::vector<std::shared_ptr<BaseComponent>>> components;
 	};
 
 	template<class ComponentType>
-	inline std::shared_ptr<ComponentType> BaseEntity::getComponentByType() noexcept
+	inline std::shared_ptr<ComponentType> Entity::getComponentByType() noexcept
 	{
 		auto it = components.find(ComponentType::id);
 		if (it != components.end())
@@ -40,7 +40,7 @@ namespace ECS
 		return nullptr;
 	}
 
-	inline std::vector<std::shared_ptr<BaseComponent>> BaseEntity::getComponents() noexcept
+	inline std::vector<std::shared_ptr<BaseComponent>> Entity::getComponents() noexcept
 	{
 		std::vector<std::shared_ptr<BaseComponent>> to_ret;
 		for(const auto &vec : components)
@@ -54,14 +54,14 @@ namespace ECS
 	}
 
 	template <class ComponentType>
-	void BaseEntity::addComponent(std::shared_ptr<ComponentType>& comp) noexcept
+	void Entity::addComponent(std::shared_ptr<ComponentType>& comp) noexcept
 	{
 		components[comp->id].push_back(comp);
 		comp->entity = this;
 	}
 
 	template <class ComponentType>
-	void BaseEntity::removeComponent(std::shared_ptr<ComponentType>& comp) noexcept
+	void Entity::removeComponent(std::shared_ptr<ComponentType>& comp) noexcept
 	{
 		auto &vec = components[comp->id];
 		auto find = std::find(begin(vec), end(vec), comp->id);
@@ -74,7 +74,7 @@ namespace ECS
 	}
 
 	template <class ComponentType>
-	inline std::vector<std::shared_ptr<ComponentType>> BaseEntity::getComponentsByType() noexcept
+	inline std::vector<std::shared_ptr<ComponentType>> Entity::getComponentsByType() noexcept
 	{
 		std::vector<std::shared_ptr<ComponentType>> to_ret;
 		auto vec = components[ComponentType::id];

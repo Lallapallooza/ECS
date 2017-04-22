@@ -4,7 +4,7 @@
 #include <cmath>
 #include <initializer_list>
 #include <unordered_set>
-#include "BaseEntity.h"
+#include "Entity.h"
 #include "TPool.h"
 
 
@@ -14,17 +14,17 @@ namespace ECS
 	{
 	public:
 		template<class T, class B, class... Args>
-		static std::unordered_set<ECS::BaseEntity*> matchNew();
+		static std::unordered_set<ECS::Entity*> matchNew();
 
 		template<class T, class B, class... Args>
-		static std::unordered_set<ECS::BaseEntity*> match();
+		static std::unordered_set<ECS::Entity*> match();
 
 	private:
 		template<class T, class B, class... Args>
-		static void saveSame(std::unordered_set<ECS::BaseEntity*> &all, std::vector<std::unordered_set<ECS::BaseEntity*>::iterator> &to_erase);
+		static void saveSame(std::unordered_set<ECS::Entity*> &all, std::vector<std::unordered_set<ECS::Entity*>::iterator> &to_erase);
 
 		template<class T, class B, class... Args>
-		static void findEntities(std::unordered_set<ECS::BaseEntity*> &all, std::vector<ECS::BaseEntity*> &entities, std::vector<int> &ids);
+		static void findEntities(std::unordered_set<ECS::Entity*> &all, std::vector<ECS::Entity*> &entities, std::vector<int> &ids);
 
 		template<class T, class B, class... Args>
 		static std::vector<int> getIds();
@@ -36,17 +36,17 @@ namespace ECS
 		static void getId(std::vector<int> &ids);
 
 		template<class T>
-		static void saveSame(std::unordered_set<ECS::BaseEntity*> &all, std::vector<std::unordered_set<ECS::BaseEntity*>::iterator> &to_erase);
+		static void saveSame(std::unordered_set<ECS::Entity*> &all, std::vector<std::unordered_set<ECS::Entity*>::iterator> &to_erase);
 
 		template<class T>
-		static void findEntities(std::unordered_set<ECS::BaseEntity*> &all, std::vector<ECS::BaseEntity*> &entities, std::vector<int> &ids);
+		static void findEntities(std::unordered_set<ECS::Entity*> &all, std::vector<ECS::Entity*> &entities, std::vector<int> &ids);
 
 		static int calculateId(std::vector<int> &ids);
 
-		static std::unordered_map<int, std::unordered_set<ECS::BaseEntity*>> saved_matches;
+		static std::unordered_map<int, std::unordered_set<ECS::Entity*>> saved_matches;
 	};
 
-	std::unordered_map<int, std::unordered_set<ECS::BaseEntity*>> Matcher::saved_matches = {};
+	std::unordered_map<int, std::unordered_set<ECS::Entity*>> Matcher::saved_matches = {};
 
 	int Matcher::calculateId(std::vector<int> &ids)
 	{
@@ -91,7 +91,7 @@ namespace ECS
 	}
 	
 	template<class T, class B, class... Args>
-	std::unordered_set<ECS::BaseEntity*> Matcher::match()
+	std::unordered_set<ECS::Entity*> Matcher::match()
 	{
 		std::vector<int> ids = getIds<T, B, Args...>();
 		std::sort(begin(ids), end(ids));
@@ -106,7 +106,7 @@ namespace ECS
 	}
 
 	template<class T, class B, class... Args>
-	void Matcher::saveSame(std::unordered_set<ECS::BaseEntity*> &all, std::vector<std::unordered_set<ECS::BaseEntity*>::iterator> &to_erase)
+	void Matcher::saveSame(std::unordered_set<ECS::Entity*> &all, std::vector<std::unordered_set<ECS::Entity*>::iterator> &to_erase)
 	{
 		for (auto it = all.begin(); it != all.end(); ++it)
 		{
@@ -125,11 +125,11 @@ namespace ECS
 	}
 
 	template<class T, class B, class... Args>
-	std::unordered_set<ECS::BaseEntity*> Matcher::matchNew()
+	std::unordered_set<ECS::Entity*> Matcher::matchNew()
 	{
-		std::vector<BaseEntity*> entities(100);
-		std::unordered_set<ECS::BaseEntity*> all;
-		std::vector<std::unordered_set<ECS::BaseEntity*>::iterator> to_erase;
+		std::vector<Entity*> entities(100);
+		std::unordered_set<ECS::Entity*> all;
+		std::vector<std::unordered_set<ECS::Entity*>::iterator> to_erase;
 		
 		std::vector<int> ids;
 
@@ -145,7 +145,7 @@ namespace ECS
 
 	
 	template <class T, class B, class ... Args>
-	void Matcher::findEntities(std::unordered_set<ECS::BaseEntity*> &all, std::vector<ECS::BaseEntity*> &entities, std::vector<int> &ids)
+	void Matcher::findEntities(std::unordered_set<ECS::Entity*> &all, std::vector<ECS::Entity*> &entities, std::vector<int> &ids)
 	{
 		entities = ECS::TPool<T>::getEntities();
 		ids.push_back(T::id);
@@ -161,7 +161,7 @@ namespace ECS
 
 
 	template<class T>
-	void Matcher::findEntities(std::unordered_set<ECS::BaseEntity*> &all, std::vector<ECS::BaseEntity*> &entities, std::vector<int> &ids)
+	void Matcher::findEntities(std::unordered_set<ECS::Entity*> &all, std::vector<ECS::Entity*> &entities, std::vector<int> &ids)
 	{
 		entities.clear();
 		ids.push_back(T::id);
@@ -176,7 +176,7 @@ namespace ECS
 	}
 
 	template <class T>
-	void Matcher::saveSame(std::unordered_set<ECS::BaseEntity*> &all, std::vector<std::unordered_set<ECS::BaseEntity*>::iterator> &to_erase)
+	void Matcher::saveSame(std::unordered_set<ECS::Entity*> &all, std::vector<std::unordered_set<ECS::Entity*>::iterator> &to_erase)
 	{
 		to_erase.clear();
 		for (auto it = all.begin(); it != all.end(); ++it)

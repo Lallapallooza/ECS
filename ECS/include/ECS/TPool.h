@@ -11,7 +11,6 @@ namespace ECS
 	class TPool
 	{
 	public:
-		static void add(T& comp) noexcept;
 		static void add(std::shared_ptr<T>& comp) noexcept;
 		static void remove(std::shared_ptr<T>& comp) noexcept;
 		static std::vector<std::shared_ptr<T>>& getComponents();
@@ -97,15 +96,9 @@ namespace ECS
 	}
 
 	template <class T>
-	void TPool<T>::add(T& comp) noexcept
-	{
-		components.emplace_back(comp);
-	}
-
-	template <class T>
 	void TPool<T>::add(std::shared_ptr<T>& comp) noexcept
 	{
-		components.push_back(comp);
+		components.emplace_back(comp);
 	}
 
 	template <class T>
