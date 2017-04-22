@@ -15,6 +15,7 @@ namespace ECS
 		static void remove(std::shared_ptr<T>& comp) noexcept;
 		static std::vector<std::shared_ptr<T>>& getComponents();
 		static std::vector<BaseEntity*> getEntities();
+		static std::size_t size() noexcept;
 		static void serialize();
 		static void deserialize();
 		static void addSerializator(std::function<void(T)> &serializator);
@@ -30,6 +31,12 @@ namespace ECS
 		static std::function<void(T)> deserializator;
 		static std::vector<std::shared_ptr<T>> components;
 	};
+
+	template <class T>
+	std::size_t TPool<T>::size() noexcept
+	{
+		return components.size();
+	}
 
 	template <class T>
 	std::function<void(T)> TPool<T>::serializator = nullptr;

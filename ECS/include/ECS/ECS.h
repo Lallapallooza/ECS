@@ -18,9 +18,6 @@
 namespace ECS
 {
 	class BaseComponent;
-	class BaseSystem;
-	class BaseEntity;
-	class Pool;
+	class Entity;
 	class PoolManager;
-	class Matcher;
 }

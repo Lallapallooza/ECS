@@ -36,16 +36,22 @@ namespace ECS
 	template <class ComponentType>
 	void PoolManager::registerComponent(std::shared_ptr<ComponentType>& comp) noexcept
 	{
+#ifdef DEBUG
 		static_assert(std::is_base_of<ECS::BaseComponent, ComponentType>::value,
 			"Error, delivered class is not child of ECS::BaseComponent class");
+#endif // DEBUG
+
 		TPool<ComponentType>::add(comp);
 	}
 
 	template <class ComponentType>
 	void PoolManager::unregisterComponent(std::shared_ptr<ComponentType>& comp)
 	{
+		
+#ifdef DEBUG
 		static_assert(std::is_base_of<ECS::BaseComponent, ComponentType>::value,
 			"Error, delivered class is not child of ECS::BaseComponent class");
+#endif // DEBUG
 		try
 		{
 			TPool<ComponentType>::remove(comp);
@@ -59,12 +65,11 @@ namespace ECS
 	template <class ComponentType>
 	std::vector<BaseEntity*> PoolManager::getEntities()
 	{
-		std::vector<BaseEntity*> to_ret;
-		std::for_each(begin(TPool<ComponentType>::components), end((TPool<ComponentType>::components)), 
-			[&](std::shared_ptr<ComponentType>& comp)
+		std::vector<BaseEntity*> to_ret(TPool<ComponentType>::size());
+		for(const auto &x : TPool<ComponentType>::components)
 		{
-			to_ret.push_back(comp.getEntity());
-		});
+			to_ret.emplace_back(x);
+		}
 		return to_ret;
 	}
 }
