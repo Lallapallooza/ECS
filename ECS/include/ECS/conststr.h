@@ -19,7 +19,7 @@ public:
 constexpr int g_(conststr s, int i = 0, unsigned int u_id = 1)
 {
 	return s.size() == i ? u_id :
-		s[i] >= 10 & s[i] <= 99 ? g_(s, i + 1, u_id = u_id * 10 + s[i] / 100) :
+		s[i] >= 10 && s[i] <= 99 ? g_(s, i + 1, u_id = u_id * 10 + s[i] / 100) :
 		s[i] > 100 ? g_(s, i + 1, u_id = u_id * 100 + s[i] / 100) :
 		g_(s, i + 1, u_id += s[i] / 10);
 }
