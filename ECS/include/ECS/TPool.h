@@ -27,8 +27,8 @@ namespace ECS
 		static bool serialize() noexcept;
 		static bool deserialize() noexcept;
 		
-		static void addSerializator(std::function<void(std::shared_ptr<T> &comp)> &serializator) noexcept;
-		static void addDeserializator(std::function<std::shared_ptr<T>(const std::string &path)> &deserializator) noexcept;
+		static void addSerializator(std::function<void(std::shared_ptr<T> &comp)> serializator) noexcept;
+		static void addDeserializator(std::function<std::shared_ptr<T>(const std::string &path)> deserializator) noexcept;
 
 		static void removeSerializator() noexcept;
 		static void removeDeserializator() noexcept;
@@ -38,17 +38,26 @@ namespace ECS
 	private:
 		
 		static std::vector<std::string> paths;
-		static std::function<void(std::shared_ptr<T> &comp)> serializator;
-		static std::function<std::shared_ptr<T>(const std::string &path)> deserializator;
+		static std::function<void(std::shared_ptr<T> &comp)> _serializator;
+		static std::function<std::shared_ptr<T>(const std::string &path)> _deserializator;
 		static std::vector<std::shared_ptr<T>> components;
 	};
 
 	template<class T>
-	std::vector<std::string> TPool<T>::paths = {};
+	std::vector<std::shared_ptr<T>> TPool<T>::components = {};
+
+	template<class T>
+	std::function<std::shared_ptr<T>(const std::string &path)> TPool<T>::_deserializator = nullptr;
 
 
 	template<class T>
-	int TPool<T>::id = {};
+	std::function<void(std::shared_ptr<T> &comp)> TPool<T>::_serializator = nullptr;
+
+	template<class T>
+	std::vector<std::string> TPool<T>::paths = {};
+
+	template<class T>
+	unsigned int TPool<T>::id = -1;
 
 	template <class T>
 	std::size_t TPool<T>::size() noexcept
@@ -74,11 +83,11 @@ namespace ECS
 	template <class T>
 	bool TPool<T>::serialize() noexcept
 	{
-		if (serializator && components.size() > 0)
+		if (_serializator && components.size() > 0)
 		{
-			for (const auto &x : components)
+			for (auto &x : components)
 			{
-				serializator(x);
+				_serializator(x);
 			}
 			return true;
 		}
@@ -88,11 +97,11 @@ namespace ECS
 	template <class T>
 	bool TPool<T>::deserialize() noexcept
 	{
-		if (deserializator && paths.size() > 0)
+		if (_deserializator && paths.size() > 0)
 		{
 			for (const auto path : paths)
 			{
-				auto comp = deserializator(path);
+				auto comp = _deserializator(path);
 				components.emplace_back(comp);
 			}
 			return true;
@@ -101,39 +110,39 @@ namespace ECS
 	}
 
 	template <class T>
-	void TPool<T>::addSerializator(std::function<void(std::shared_ptr<T>& comp)>& serializator) noexcept
+	void TPool<T>::addSerializator(std::function<void(std::shared_ptr<T>& comp)> serializator) noexcept
 	{
-		this->serializator = serializator;
+		_serializator = serializator;
 	}
 
 	template <class T>
-	void TPool<T>::addDeserializator(std::function<std::shared_ptr<T>(const std::string& path)>& deserializator) noexcept
+	void TPool<T>::addDeserializator(std::function<std::shared_ptr<T>(const std::string& path)> deserializator) noexcept
 	{
-		this->deserializator = deserializator;
+		_deserializator = deserializator;
 	}
 
 	template <class T>
 	void TPool<T>::removeSerializator() noexcept
 	{
-		serializator = nullptr;
+		_serializator = nullptr;
 	}
 
 	template <class T>
 	void TPool<T>::removeDeserializator() noexcept
 	{
-		serializator = nullptr;
+		_serializator = nullptr;
 	}
 
 	template <class T>
 	std::function<std::shared_ptr<T>(const std::string& path)> TPool<T>::getDeserializator() noexcept
 	{
-		return deserializator;
+		return _deserializator;
 	}
 
 	template <class T>
 	std::function<void(std::shared_ptr<T>& comp)> TPool<T>::getSerializator() noexcept
 	{
-		return serializator;
+		return _serializator;
 	}
 
 

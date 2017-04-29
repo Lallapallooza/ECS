@@ -61,19 +61,10 @@ namespace ECS
 			return -1;
 		}
 
-
 		template<class T, class... U>
 		std::vector<T> Event<T, U...>::notify(U...args)
 		{
 			std::size_t size = _functions.size();
-			if (std::is_void<T>::value)
-			{
-				for (std::size_t i = 0; i < size; ++i)
-				{
-					_functions[i](args...);
-				}
-				return {};
-			}
 
 			std::vector<T> to_ret(size);
 			for (std::size_t i = 0; i < size; ++i)
@@ -125,8 +116,119 @@ namespace ECS
 			}
 			return *this;
 		}
-	}
 
+
+
+		template<class... U>
+		class Event<void, U...>
+		{
+		public:
+			Event &operator+=(const std::function<void(U...)>& func) noexcept;
+			Event &operator-=(const std::function<void(U...)>& func) noexcept;
+			Event &erase(const std::function<void(U...)>& func, bool &is_erased) noexcept;
+			void clear() noexcept;
+			std::size_t size() noexcept;
+			const std::function<void(U...)>& operator[](int inx) const noexcept;
+			std::size_t find(const std::function<void(U...)> &func) const noexcept;
+			void notify(U... args);
+		private:
+			void operator=(const Event &other) = delete;
+			std::vector<std::function<void(U...)>> _functions;
+
+			static std::size_t getAddress(std::function<void(U ...)> f)
+			{
+				return std::size_t(std::addressof(f));
+			}
+		};
+
+		template<class... U>
+		void Event<void, U...>::clear() noexcept
+		{
+			_functions.clear();
+		}
+
+		template<class ... U>
+		std::size_t Event<void, U...>::size() noexcept
+		{
+			return _functions.size();
+		}
+
+		template<class ... U>
+		const std::function<void(U...)>& Event<void, U...>::operator[](int inx) const noexcept
+		{
+			return _functions[inx];
+		}
+
+		template<class ... U>
+		std::size_t Event<void, U...>::find(const std::function<void(U...)>& func) const noexcept
+		{
+			std::size_t size = _functions.size();
+			for (std::size_t i = 0; i < size; ++i)
+			{
+				if (getAddress(_functions[i]) == getAddress(func))
+				{
+					return i;
+				}
+			}
+			return -1;
+		}
+
+		template<class... U>
+		void Event<void, U...>::notify(U...args)
+		{
+			std::size_t size = _functions.size();
+
+			for (std::size_t i = 0; i < size; ++i)
+			{
+				_functions[i](args...);
+			}
+		}
+
+
+		template<class... U>
+		Event<void, U...>& Event<void, U...>::operator+=(const std::function<void(U...)>& func) noexcept
+		{
+			this->_functions.push_back(func);
+			return *this;
+		}
+
+		template<class... U>
+		Event<void, U...>& Event<void, U...>::operator-=(const std::function<void(U...)>& func) noexcept
+		{
+			std::size_t size = _functions.size();
+
+			for (std::size_t i = 0; i < size; ++i)
+			{
+				if (getAddress(_functions[i]) == getAddress(func))
+				{
+					std::swap(_functions.back(), _functions[i]);
+					_functions.pop_back();
+					break;
+				}
+			}
+			return *this;
+		}
+
+		template<class ... U>
+		Event<void, U...>& Event<void, U...>::erase(const std::function<void(U...)>& func, bool& is_erased) noexcept
+		{
+			std::size_t size = _functions.size();
+			is_erased = false;
+			for (std::size_t i = 0; i < size; ++i)
+			{
+				if (getAddress(_functions[i]) == getAddress(func))
+				{
+					std::swap(_functions.back(), _functions[i]);
+					_functions.pop_back();
+					is_erased = true;
+					break;
+				}
+			}
+			return *this;
+		}
+
+
+	}
 	extern tools::Event<void> preUpdate;
 	extern tools::Event<void> Update;
 	extern tools::Event<void> lateUpdate;

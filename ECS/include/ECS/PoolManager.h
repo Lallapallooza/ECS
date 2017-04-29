@@ -13,21 +13,30 @@ namespace ECS
 	{
 	public:
 
-		void serializeComponents() noexcept
+		std::vector<bool> serializeComponents() noexcept
 		{
-			for (const auto &x : serializator)
+			const std::size_t size = serializator.size();
+			std::vector<bool> bools(size);
+			
+			for (std::size_t i = 0; i < size; ++i)
 			{
-				x();
+				bools[i] = serializator[i]();
 			}
+			return std::move(bools);
 		}
 
 		
-		void deserializeComponents() noexcept
+		std::vector<bool> deserializeComponents() noexcept
 		{
-			for (const auto &x : deserializator)
+			const std::size_t size = deserializator.size();
+			std::vector<bool> bools(size);
+
+			for (std::size_t i = 0; i < size; ++i)
 			{
-				x();
+				bools[i] = deserializator[i]();
 			}
+
+			return std::move(bools);
 		}
 
 		template<class ComponentType>
@@ -44,8 +53,8 @@ namespace ECS
 		~PoolManager(){};
 	private:
 		unsigned int tpool_id = 0;
-		std::vector<std::function<void()>> serializator;
-		std::vector<std::function<void()>> deserializator;
+		std::vector<std::function<bool()>> serializator;
+		std::vector<std::function<bool()>> deserializator;
 		PoolManager(){};
 	};
 
@@ -65,8 +74,8 @@ namespace ECS
 
 		TPool<ComponentType>::add(comp);
 		TPool<ComponentType>::id = tpool_id;
-		deserializator.emplace_back(TPool<ComponentType>::derialize());
-		serializator.emplace_back(TPool<ComponentType>::serialize());
+		deserializator.push_back(TPool<ComponentType>::deserialize);
+		serializator.push_back(TPool<ComponentType>::serialize);
 		++tpool_id;
 
 	}
