@@ -23,9 +23,9 @@ namespace ECS
 			void operator=(const Event &other) = delete;
 			std::vector<std::function<T(U...)>> _functions;
 
-			static std::size_t getAddress(std::function<T(U ...)> &f)
+			static std::size_t getAddress(std::function<T(U ...)> f)
 			{
-				return std::size_t(std::addressof(f));
+				return std::size_t(std::addressof(*f.template target<T(*)(U...)>()));
 			}
 		};
 
@@ -137,7 +137,7 @@ namespace ECS
 
 			static std::size_t getAddress(std::function<void(U ...)> f)
 			{
-				return std::size_t(std::addressof(f));
+				return std::size_t(std::addressof(*f.template target<void(*)(U...)>()));
 			}
 		};
 
