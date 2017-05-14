@@ -10,13 +10,16 @@ namespace ECS
 		class EventBus
 		{
 		public:
-			void raise() noexcept;
-			void addHandle(const std::function<void()> &func) noexcept;
-			bool removeHandle(const std::function<void()> &func) noexcept;
+			static void raise() noexcept;
+			static void addHandle(const std::function<void()> &func) noexcept;
+			static bool removeHandle(const std::function<void()> &func) noexcept;
 		private:
-			Event<void> events;
+			static Event<void> events;
 		};
-
+		
+		template <std::size_t N>
+		Event<void> EventBus<N>::events = {};
+		
 		template <std::size_t N>
 		void EventBus<N>::raise() noexcept
 		{
