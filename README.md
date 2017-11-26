@@ -1,3 +1,6 @@
+##  README OUTDATED BUT YOU CAN STILL USE IT FOR OVERVIEW
+
+
 ##  Simple ECS in C++
   This is an implement of ECS pattern in C++. It contains:
   
